@@ -38,7 +38,7 @@ input.addEventListener("keydown", (e) => {
       commandLine.innerHTML = `<span class="prompt">> </span>${command}`;
       output.appendChild(commandLine);
 
-      // Add response (you can customize this)
+      // Add response
       const response = document.createElement("div");
       response.style.marginBottom = "0.625rem";
       response.textContent = processCommand(command);

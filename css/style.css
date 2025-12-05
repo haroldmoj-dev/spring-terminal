@@ -211,9 +211,10 @@ body {
 }
 
 /* Subtle RGB shift */
-.crt-content {
-  text-shadow: 0.03125rem 0 0 rgba(255, 0, 0, 0.3),
-    -0.03125rem 0 0 rgba(0, 255, 255, 0.3);
+.crt-content,
+.terminal-input {
+  text-shadow: 0.08rem 0 0 rgba(255, 0, 0, 0.3),
+    -0.08rem 0 0 rgba(0, 255, 255, 0.3);
 }
 
 /* Enhanced flicker with more variation */
@@ -346,7 +347,8 @@ body.low-perf .crt-scanline {
   display: none;
 }
 
-body.low-perf .crt-content {
+body.low-perf .crt-content,
+body.low-perf .terminal-input {
   text-shadow: none;
 }
 
