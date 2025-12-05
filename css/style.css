@@ -1,0 +1,364 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* General setup */
+
+html {
+  font-size: clamp(15px, 1vw + 12px, 18px);
+}
+
+/* CRT effect */
+
+body {
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Courier New", monospace;
+  overflow: hidden;
+}
+
+.crt-container {
+  position: relative;
+  width: 90vw;
+  max-width: 50rem;
+  aspect-ratio: 4/3;
+  min-height: 400px; /* Prevent shrinking too much */
+  background: #000;
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  box-shadow: 0 0 6.25rem rgba(0, 255, 100, 0.3);
+}
+
+@media (max-width: 768px) {
+  .crt-container {
+    width: 95vw;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crt-container {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    min-height: 300px;
+  }
+}
+
+.crt-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  border-radius: 0.625rem;
+}
+
+.crt-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1.25rem;
+  color: #00ff00;
+  font-size: 1rem;
+  line-height: 1.6;
+  z-index: 1;
+  overflow-y: auto;
+  will-change: transform;
+}
+
+@media (max-width: 480px) {
+  .crt-content {
+    padding: 0.75rem;
+    line-height: 1.5;
+  }
+}
+
+/* Optimized scanlines using single background */
+.crt-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Enhanced flicker - only changes opacity */
+.crt-screen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 16, 16, 0.15);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+  animation: flicker 0.08s infinite;
+  will-change: opacity;
+}
+
+/* Phosphor glow with subtle pulse */
+.crt-glow {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 255, 100, 0.08) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: glow 3s ease-in-out infinite alternate;
+  will-change: opacity;
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Subtle RGB shift */
+.crt-content {
+  text-shadow: 0.03125rem 0 0 rgba(255, 0, 0, 0.3),
+    -0.03125rem 0 0 rgba(0, 255, 255, 0.3);
+}
+
+/* Enhanced flicker with more variation */
+@keyframes flicker {
+  0% {
+    opacity: 0.32;
+  }
+  10% {
+    opacity: 0.18;
+  }
+  20% {
+    opacity: 0.91;
+  }
+  30% {
+    opacity: 0.24;
+  }
+  40% {
+    opacity: 0.77;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  60% {
+    opacity: 0.88;
+  }
+  70% {
+    opacity: 0.41;
+  }
+  80% {
+    opacity: 0.69;
+  }
+  90% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0.52;
+  }
+}
+
+/* Optional rolling scanline - can be removed for better performance */
+.crt-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 5;
+  animation: roll 4s linear infinite;
+  will-change: transform;
+}
+
+.crt-content:focus {
+  outline: none;
+}
+
+.crt-content:empty::before {
+  content: "Type here...";
+  color: rgba(0, 255, 0, 0.5);
+  pointer-events: none;
+}
+
+@keyframes roll {
+  0% {
+    transform: translateY(-0.625rem);
+  }
+  100% {
+    transform: translateY(calc(100% + 100vh));
+  }
+}
+
+.terminal-output {
+  margin-bottom: 0.625rem;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: baseline;
+}
+
+.prompt {
+  color: #00ff00;
+  margin-right: 0.3125rem;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  outline: none;
+  caret-color: #00ff00;
+}
+
+.terminal-input::selection {
+  background: rgba(0, 255, 0, 0.3);
+}
+
+/* Performance toggle button */
+.perf-toggle {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  padding: 0.625rem 0.9375rem;
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  border-radius: 0.3125rem;
+  font-size: 0.75rem;
+  z-index: 1000;
+}
+
+@media (max-width: 480px) {
+  .perf-toggle {
+    top: 0.625rem;
+    right: 0.625rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.625rem;
+  }
+}
+
+.perf-toggle:hover {
+  background: rgba(0, 255, 0, 0.2);
+}
+
+/* Low performance mode */
+body.low-perf .crt-screen::after,
+body.low-perf .crt-scanline {
+  display: none;
+}
+
+body.low-perf .crt-content {
+  text-shadow: none;
+}
+
+body.low-perf .crt-glow {
+  animation: none;
+}
