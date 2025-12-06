@@ -108,6 +108,8 @@ body {
   z-index: 1;
   overflow-y: scroll;
   will-change: transform; /* TODO: Check this later */
+  scrollbar-width: thin;
+  scrollbar-color: #00ff00 #001100;
 }
 
 /* Optimized scanlines using single background */
