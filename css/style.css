@@ -84,7 +84,7 @@ body {
 }
 
 .crt-container {
-  margin-top: clamp(49px, calc(43.824px + 1.618vw), 60px);
+  margin: clamp(49px, calc(43.824px + 1.618vw), 60px) 20px;
   width: 40rem;
   height: 80vh;
   min-height: 400px;
