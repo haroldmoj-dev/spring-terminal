@@ -8,22 +8,6 @@ function togglePerformance() {
   }`;
 }
 
-// Auto-detect slow devices
-if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
-  const checkPerformance = () => {
-    const start = performance.now();
-    for (let i = 0; i < 1000000; i++) {}
-    const duration = performance.now() - start;
-
-    if (duration > 50) {
-      togglePerformance();
-      console.log("Low-performance mode auto-enabled");
-    }
-  };
-
-  setTimeout(checkPerformance, 1000);
-}
-
 // Terminal functionality
 const input = document.querySelector(".terminal-input");
 const output = document.querySelector(".terminal-output");
