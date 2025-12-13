@@ -19,7 +19,8 @@ input.addEventListener("keydown", (e) => {
     if (command) {
       // Add command to output
       const commandLine = document.createElement("div");
-      commandLine.innerHTML = `<span class="prompt">> </span>${command}`;
+      commandLine.classList.toggle("terminal-output-line");
+      commandLine.innerHTML = `<span class="prompt">>&nbsp;</span><div class="command">${command}</div>`;
       output.appendChild(commandLine);
 
       // Add response
