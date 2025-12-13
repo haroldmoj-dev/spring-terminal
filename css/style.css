@@ -90,6 +90,13 @@ body {
   padding: 1rem;
 }
 
+.bottom-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
 /* Performance toggle button */
 .perf-toggle {
   padding: 0.625rem 0.9375rem;
@@ -335,5 +342,5 @@ body.low-perf .terminal-input {
 }
 
 * {
-  outline: 1px solid red;
+  /* outline: 1px solid red; */
 }
