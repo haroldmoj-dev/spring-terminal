@@ -127,7 +127,7 @@ body {
   padding: 1rem;
   width: 40rem;
   max-width: 40rem;
-  height: 40rem;
+  height: 30rem;
   background: #000;
   border-radius: 1.2rem;
   box-shadow: 0 0 6.25rem rgba(0, 255, 100, 0.3);
@@ -162,7 +162,7 @@ body {
   height: 100%;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 255, 100, 0.1) 0%,
+    rgba(0, 255, 100, 0.2) 0%,
     transparent 100%
   );
   pointer-events: none;
