@@ -24,7 +24,7 @@ input.addEventListener("keydown", (e) => {
 
       // Add response
       const response = document.createElement("div");
-      response.style.marginBottom = "0.625rem";
+      response.style.marginBottom = "1rem";
       response.textContent = processCommand(command);
       output.appendChild(response);
 

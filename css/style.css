@@ -146,13 +146,10 @@ body {
   padding: 1rem;
   width: 100%;
   height: 100%;
-  color: #00ff00;
-  font-size: 1rem;
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 255, 0, 0.6) #001100;
-  will-change: transform; /* TODO: Check this later */
   z-index: 1;
 }
 
@@ -285,12 +282,21 @@ body {
   }
 }
 
-.crt-content:focus {
-  outline: none;
+/* Text color and shadow (RGB shift) */
+.crt-content * {
+  color: #00ff00;
+  font-size: 1rem;
+  text-shadow: 0.08rem 0 0 rgba(255, 0, 0, 0.3),
+    -0.08rem 0 0 rgba(0, 255, 255, 0.3);
 }
 
-.terminal-output {
-  margin-bottom: 0.625rem;
+/* Highlighting text */
+.crt-content *::selection {
+  background: rgba(0, 255, 0, 0.3);
+}
+
+.crt-content:focus {
+  outline: none;
 }
 
 .terminal-input-line {
@@ -298,31 +304,12 @@ body {
   align-items: baseline;
 }
 
-.prompt {
-  color: #00ff00;
-  margin-right: 0.3125rem;
-}
-
 .terminal-input {
-  flex: 1;
+  padding: 0;
   background: transparent;
   border: none;
-  color: #00ff00;
-  font-family: "Courier New", monospace;
-  font-size: 1rem;
   outline: none;
   caret-color: #00ff00;
-}
-
-.terminal-input::selection {
-  background: rgba(0, 255, 0, 0.3);
-}
-
-/* Text shadow (RGB shift) */
-.crt-content,
-.terminal-input {
-  text-shadow: 0.08rem 0 0 rgba(255, 0, 0, 0.3),
-    -0.08rem 0 0 rgba(0, 255, 255, 0.3);
 }
 
 /* Low performance mode */
@@ -337,11 +324,10 @@ body.low-perf .crt-glow {
   background: none;
 }
 
-body.low-perf .crt-content,
-body.low-perf .terminal-input {
+body.low-perf .crt-content * {
   text-shadow: none;
 }
 
 * {
-  /* outline: 1px solid red; */
+  outline: 1px solid red;
 }
