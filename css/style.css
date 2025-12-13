@@ -347,6 +347,6 @@ body.low-perf .crt-content * {
   text-shadow: none;
 }
 
-* {
-  /* outline: 1px solid red; */
-}
+/* * {
+  outline: 1px solid red;
+} */
