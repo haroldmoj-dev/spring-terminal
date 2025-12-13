@@ -1,55 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <script src="./js/script.js" defer></script>
-    <title>Spring Terminal System</title>
+    <title>spring-terminal</title>
   </head>
   <body>
-    <div class="top-container">
-      <button class="perf-toggle" onclick="togglePerformance()">
-        Performance Mode: High
-      </button>
-    </div>
-    <div class="middle-container">
-      <div class="crt-container">
-        <div class="crt-screen">
-          <div class="crt-glow"></div>
-          <div class="crt-content" id="content">
-            <div class="terminal-output">
-              <div>
-                ╔═════════════════════════════╗<br />
-                ║ SPRING TERMINAL SYSTEM v1.0 ║<br />
-                ╚═════════════════════════════╝<br />
-                © 2025 Spring. All Rights Reserved.
-              </div>
-              <div>
-                > Initializing CRT display...<br />
-                > Loading visual effects... DONE<br />
-                > System ready.<br /><br />
-
-                Welcome to the CRT screen simulator.<br />
-                Available commands: help, clear, echo [text], date<br /><br />
-              </div>
-            </div>
-            <div class="terminal-input-line">
-              <span class="prompt">>&nbsp;</span>
-              <input
-                type="text"
-                class="terminal-input"
-                autofocus
-                autocomplete="off"
-                spellcheck="false"
-              />
-            </div>
-          </div>
-          <span class="terminal-cursor"></span>
-          <div class="crt-scanline"></div>
-        </div>
-      </div>
-    </div>
-    <div class="bottom-container"></div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
