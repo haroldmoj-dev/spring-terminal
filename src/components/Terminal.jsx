@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import "../styles/components/Terminal.css";
 
 const Terminal = () => {
   const initialHistory = [
@@ -124,7 +125,6 @@ const Terminal = () => {
             />
           </div>
         </div>
-        <span className="terminal-cursor"></span>
         <div className="crt-scanline"></div>
       </div>
     </div>

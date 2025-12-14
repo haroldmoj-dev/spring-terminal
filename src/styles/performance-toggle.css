@@ -1,0 +1,32 @@
+/* Performance toggle button */
+.perf-toggle {
+  padding: 0.625rem 0.9375rem;
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  border-radius: 0.3125rem;
+  font-size: 0.75rem;
+  z-index: 1000;
+}
+
+.perf-toggle:hover {
+  background: rgba(0, 255, 0, 0.2);
+}
+
+/* Low performance mode */
+body.low-perf .crt-screen::before,
+body.low-perf .crt-screen::after,
+body.low-perf .crt-scanline {
+  display: none;
+}
+
+body.low-perf .crt-glow {
+  animation: none;
+  background: none;
+}
+
+body.low-perf .crt-content * {
+  text-shadow: none;
+}

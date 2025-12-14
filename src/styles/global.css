@@ -78,13 +78,6 @@ body {
   font-family: "Courier New", monospace;
 }
 
-.outer-container {
-  height: 100vh;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
 /* * {
   outline: 1px solid red;
 } */

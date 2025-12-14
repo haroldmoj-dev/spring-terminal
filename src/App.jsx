@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Terminal from "./components/Terminal";
-import "./App.css";
 
 function App() {
   const [isLowPerf, setIsLowPerf] = useState(false);
