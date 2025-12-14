@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "../styles/components/Terminal.css";
 
-const Terminal = () => {
+const Terminal = ({ onNavigate }) => {
   const initialHistory = [
     {
       type: "output",
@@ -49,7 +49,8 @@ const Terminal = () => {
     } else if (lower === "date") {
       return new Date().toString();
     } else if (lower === "tetris") {
-      // TODO: add the component <Terminal /> to middle container in App.jsx
+      onNavigate("tetris");
+      return "Loading Tetris...";
     } else {
       return `Command not found: ${cmd}`;
     }
@@ -92,6 +93,7 @@ const Terminal = () => {
     <div className="crt-container">
       <div className="crt-screen">
         <div className="crt-glow"></div>
+        <div className="crt-scanline"></div>
         <div
           className="terminal-content"
           ref={contentRef}
@@ -127,7 +129,6 @@ const Terminal = () => {
             />
           </div>
         </div>
-        <div className="crt-scanline"></div>
       </div>
     </div>
   );

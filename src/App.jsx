@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Terminal from "./components/Terminal";
+import Tetris from "./components/Tetris";
 
 function App() {
   const [isLowPerf, setIsLowPerf] = useState(false);
+  const [currentView, setCurrentView] = useState("terminal");
 
   const togglePerformance = () => {
     setIsLowPerf(!isLowPerf);
@@ -17,7 +19,8 @@ function App() {
         </button>
       </div>
       <div className="middle-container">
-        <Terminal />
+        <Terminal onNavigate={setCurrentView} />
+        {currentView === "tetris" && <Tetris onNavigate={setCurrentView} />}
       </div>
       <div className="bottom-container"></div>
     </div>
