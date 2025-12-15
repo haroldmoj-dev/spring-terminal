@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import Typewriter from "./Typewriter";
 import "../styles/components/Terminal.css";
 
 const Terminal = ({ onNavigate }) => {
@@ -28,11 +29,13 @@ const Terminal = ({ onNavigate }) => {
           <br />
         </>
       ),
+      animated: false,
     },
   ];
 
   const [inputValue, setInputValue] = useState("");
   const [history, setHistory] = useState(initialHistory);
+  const [isTyping, setIsTyping] = useState(false);
 
   const inputRef = useRef(null);
   const contentRef = useRef(null);
@@ -43,7 +46,7 @@ const Terminal = ({ onNavigate }) => {
     if (lower === "help") {
       return "Available commands: help, clear, echo [text], date, tetris";
     } else if (lower === "clear") {
-      return null; // Special case for clear
+      return null;
     } else if (lower.startsWith("echo ")) {
       return cmd.substring(5);
     } else if (lower === "date") {
@@ -66,8 +69,8 @@ const Terminal = ({ onNavigate }) => {
           const response = processCommand(command);
           setHistory((prev) => [
             ...prev,
-            { type: "command", content: command },
-            { type: "response", content: response },
+            { type: "command", content: command, animated: false },
+            { type: "response", content: response, animated: true },
           ]);
         }
         setInputValue("");
@@ -108,7 +111,13 @@ const Terminal = ({ onNavigate }) => {
                     <div className="command">{item.content}</div>
                   </div>
                 ) : item.type === "response" ? (
-                  <div style={{ marginBottom: "1rem" }}>{item.content}</div>
+                  <div style={{ marginBottom: "1rem" }}>
+                    {item.animated ? (
+                      <Typewriter text={item.content} speed={30} />
+                    ) : (
+                      item.content
+                    )}
+                  </div>
                 ) : (
                   <div>{item.content}</div>
                 )}
