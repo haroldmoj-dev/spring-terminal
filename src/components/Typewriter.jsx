@@ -18,11 +18,6 @@ const Typewriter = ({ text, speed = 30, showCursor = true, onComplete }) => {
     }
   }, [currentIndex, text, speed, onComplete]);
 
-  useEffect(() => {
-    setDisplayedText("");
-    setCurrentIndex(0);
-  }, [text]);
-
   return (
     <span>
       {displayedText}
