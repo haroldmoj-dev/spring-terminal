@@ -1,5 +1,6 @@
 /* Performance toggle button */
-.perf-toggle {
+.perf-toggle,
+.active-tab {
   padding: 0.625rem 0.9375rem;
   background: rgba(0, 255, 0, 0.1);
   border: 1px solid #00ff00;
@@ -11,7 +12,8 @@
   z-index: 1000;
 }
 
-.perf-toggle:hover {
+.perf-toggle:hover,
+.active-tab:hover {
   background: rgba(0, 255, 0, 0.2);
 }
 
@@ -27,6 +29,7 @@ body.low-perf .crt-glow {
   background: none;
 }
 
-body.low-perf .terminal-content * {
+body.low-perf .terminal-content *,
+body.low-perf .tetris-content * {
   text-shadow: none;
 }

@@ -5,9 +5,6 @@ const Tetris = ({ onNavigate, isLowPerf }) => {
     <div className="tetris-content">
       <div>Tetris Game</div>
       <br />
-      <button class="back-button" onClick={() => onNavigate("terminal")}>
-        Back to Terminal
-      </button>
       {/* Tetris game logic */}
     </div>
   );

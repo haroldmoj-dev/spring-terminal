@@ -11,11 +11,23 @@ function App() {
     document.body.classList.toggle("low-perf", !isLowPerf);
   };
 
+  const toggleTab = () => {
+    setCurrentView((prev) => (prev === "terminal" ? "tetris" : "terminal"));
+  };
+
   return (
     <div className="outer-container">
       <div className="top-container">
         <button className="perf-toggle" onClick={togglePerformance}>
           Performance Mode: {isLowPerf ? "Low" : "High"}
+        </button>
+        <button className="active-tab" onClick={toggleTab}>
+          Active Tab:
+          {currentView === "terminal"
+            ? " Terminal"
+            : currentView === "tetris"
+            ? " Tetris"
+            : ""}
         </button>
       </div>
       <div className="middle-container">
