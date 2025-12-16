@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Terminal from "./components/Terminal";
 import Tetris from "./components/Tetris";
 
@@ -7,6 +7,7 @@ function App() {
   const [currentView, setCurrentView] = useState("terminal");
   const [displayedView, setDisplayedView] = useState("terminal");
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const togglePerformance = () => {
     setIsLowPerf(!isLowPerf);
@@ -19,6 +20,11 @@ function App() {
   };
 
   useEffect(() => {
+    if (!hasMounted) {
+      setHasMounted(true);
+      return;
+    }
+
     setIsTransitioning(true);
     setTimeout(() => {
       setDisplayedView(currentView);
@@ -47,7 +53,13 @@ function App() {
             <div className="crt-glow"></div>
             <div className="crt-scanline"></div>
             <div
-              className={`content ${isTransitioning ? "fade-out" : "fade-in"}`}
+              className={`content ${
+                !hasMounted
+                  ? "fade-in"
+                  : isTransitioning
+                  ? "fade-out"
+                  : "fade-in"
+              }`}
             >
               {displayedView === "terminal" && (
                 <Terminal onNavigate={setCurrentView} isLowPerf={isLowPerf} />
