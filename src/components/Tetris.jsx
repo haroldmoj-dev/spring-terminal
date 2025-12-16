@@ -1,6 +1,6 @@
 import "../styles/components/Tetris.css";
 
-const Tetris = ({ onNavigate }) => {
+const Tetris = ({ onNavigate, isLowPerf }) => {
   return (
     <div className="tetris-content">
       <div>Tetris Game</div>

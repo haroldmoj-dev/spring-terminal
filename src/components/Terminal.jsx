@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Typewriter from "./Typewriter";
 import "../styles/components/Terminal.css";
 
-const Terminal = ({ onNavigate }) => {
+const Terminal = ({ onNavigate, isLowPerf }) => {
   const initialHistory = [
     {
       type: "output",
@@ -40,6 +40,7 @@ const Terminal = ({ onNavigate }) => {
   const inputRef = useRef(null);
   const contentRef = useRef(null);
 
+  // Return response based on the user command inputted
   const processCommand = (cmd) => {
     const lower = cmd.toLowerCase();
 
@@ -55,10 +56,11 @@ const Terminal = ({ onNavigate }) => {
       onNavigate("tetris");
       return "Loading Tetris...";
     } else {
-      return `Command not found: ${cmd}`;
+      return `Command not found.`;
     }
   };
 
+  // Handle all events that happen after clicking "Enter"
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !isTyping) {
       const command = inputValue.trim();
@@ -67,13 +69,13 @@ const Terminal = ({ onNavigate }) => {
           setHistory(initialHistory);
         } else {
           const response = processCommand(command);
-          if (response) {
+          if (response && !isLowPerf) {
             setIsTyping(true);
           }
           setHistory((prev) => [
             ...prev,
             { type: "command", content: command, animated: false },
-            { type: "response", content: response, animated: true },
+            { type: "response", content: response, animated: !isLowPerf },
           ]);
         }
         setInputValue("");
@@ -81,21 +83,44 @@ const Terminal = ({ onNavigate }) => {
     }
   };
 
+  // Turn off Typewriter animation for a specific message
+  const markAnimatedComplete = (index) => {
+    setHistory((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, animated: false } : item))
+    );
+  };
+
+  // Focus once component loads
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  // Scroll to bottom whenever history is updated
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.scrollTop = contentRef.current.scrollHeight;
     }
   }, [history]);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
+  // Refocus after Typewriter animation is done
   useEffect(() => {
     if (!isTyping) {
       inputRef.current?.focus();
     }
   }, [isTyping]);
+
+  // Turn off Typewriter animations for all after clicking Low Perf
+  useEffect(() => {
+    if (!isLowPerf) return;
+
+    setHistory((prev) =>
+      prev.map((item) =>
+        "animated" in item ? { ...item, animated: false } : item
+      )
+    );
+
+    setIsTyping(false);
+  }, [isLowPerf]);
 
   return (
     <div
@@ -105,53 +130,51 @@ const Terminal = ({ onNavigate }) => {
     >
       <div className="terminal-output">
         {history.map((item, index) => {
-          const isLast = index === history.length - 1;
           return (
             <div key={index}>
+              {/* Command (user input) */}
               {item.type === "command" ? (
-                <div className="terminal-output-line">
-                  <span className="prompt">&gt;&nbsp;</span>
-                  <div className="command">{item.content}</div>
-                </div>
-              ) : item.type === "response" ? (
+                <div>&gt; {item.content}</div>
+              ) : // Response
+              item.type === "response" ? (
                 <div style={{ marginBottom: "1rem" }}>
                   {item.animated ? (
                     <Typewriter
                       text={item.content}
                       speed={30}
-                      onComplete={isLast ? () => setIsTyping(false) : undefined}
+                      onComplete={() => {
+                        markAnimatedComplete(index);
+                        setIsTyping(false);
+                      }}
                     />
                   ) : (
                     item.content
                   )}
                 </div>
               ) : (
+                // Output (initial history)
                 <div>{item.content}</div>
               )}
             </div>
           );
         })}
       </div>
-      {!isTyping ? (
-        <div className="terminal-input-line">
-          <span className="prompt">&gt;&nbsp;</span>
-          <input
-            ref={inputRef}
-            type="text"
-            className="terminal-input"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            autoComplete="off"
-            spellCheck="false"
-          />
-        </div>
-      ) : (
-        <div className="terminal-input-line">
-          <span className="prompt">&gt;&nbsp;</span>
-          <span className="typing-cursor">█</span>
-        </div>
-      )}
+      <div className="terminal-input-line">
+        <span className="prompt">&gt;&nbsp;</span>
+        {/* When typing is blocked (Typewriter animation running) */}
+        {isTyping && <span className="typing-cursor">█</span>}
+        <input
+          ref={inputRef}
+          type="text"
+          className="terminal-input"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoComplete="off"
+          spellCheck="false"
+          readOnly={isTyping}
+        />
+      </div>
     </div>
   );
 };

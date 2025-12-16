@@ -24,13 +24,14 @@ function App() {
             <div className="crt-glow"></div>
             <div className="crt-scanline"></div>
             {currentView === "terminal" && (
-              <Terminal onNavigate={setCurrentView} />
+              <Terminal onNavigate={setCurrentView} isLowPerf={isLowPerf} />
             )}
-            {currentView === "tetris" && <Tetris onNavigate={setCurrentView} />}
+            {currentView === "tetris" && (
+              <Tetris onNavigate={setCurrentView} isLowPerf={isLowPerf} />
+            )}
           </div>
         </div>
       </div>
-      <div className="bottom-container"></div>
     </div>
   );
 }
