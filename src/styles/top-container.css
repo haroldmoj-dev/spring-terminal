@@ -29,7 +29,6 @@ body.low-perf .crt-glow {
   background: none;
 }
 
-body.low-perf .terminal-content *,
-body.low-perf .tetris-content * {
+body.low-perf .content * {
   text-shadow: none;
 }

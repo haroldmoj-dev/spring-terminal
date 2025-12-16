@@ -125,7 +125,7 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
 
   return (
     <div
-      className="terminal-content"
+      className="terminal content"
       ref={contentRef}
       onClick={() => inputRef.current?.focus()}
     >
