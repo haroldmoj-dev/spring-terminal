@@ -166,13 +166,17 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
         <input
           ref={inputRef}
           type="text"
-          className="terminal-input"
+          className={`terminal-input ${isTyping ? "no-cursor" : ""}`}
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onChange={(e) => {
+            if (!isTyping) setInputValue(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (isTyping) e.preventDefault();
+            handleKeyDown(e);
+          }}
           autoComplete="off"
           spellCheck="false"
-          readOnly={isTyping}
         />
       </div>
     </div>

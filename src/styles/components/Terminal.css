@@ -57,6 +57,10 @@
   caret-color: #00ff00;
 }
 
+.terminal-input.no-cursor {
+  caret-color: transparent;
+}
+
 .typing-cursor {
   animation: blink 0.7s infinite;
   will-change: opacity;
