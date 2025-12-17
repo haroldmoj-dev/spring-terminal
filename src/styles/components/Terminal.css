@@ -27,28 +27,28 @@
   outline: none;
 }
 
-.terminal-output-line {
+.terminal.output-line {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
 }
 
-.terminal-output-line .prompt {
+.terminal.output-line .prompt {
   flex: 0 0 auto;
 }
 
-.terminal-output-line .command {
+.terminal.output-line .command {
   flex: 1 1 auto;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-.terminal-input-line {
+.terminal.input-line {
   display: flex;
   align-items: baseline;
 }
 
-.terminal-input {
+.terminal.input {
   padding: 0;
   flex: 1;
   background: transparent;
@@ -57,7 +57,7 @@
   caret-color: #00ff00;
 }
 
-.terminal-input.no-cursor {
+.terminal.input.no-cursor {
   caret-color: transparent;
 }
 

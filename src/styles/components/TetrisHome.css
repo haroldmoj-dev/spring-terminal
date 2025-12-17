@@ -30,12 +30,12 @@
   text-align: center;
 }
 
-.thome-input-line {
+.thome.input-line {
   display: flex;
   align-items: baseline;
 }
 
-.thome-input {
+.thome.input {
   padding: 0;
   background: transparent;
   border: none;
@@ -44,6 +44,6 @@
   text-align: center;
 }
 
-.thome-input.no-cursor {
+.thome.input.no-cursor {
   caret-color: transparent;
 }

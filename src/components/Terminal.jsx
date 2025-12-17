@@ -166,7 +166,7 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
       ref={contentRef}
       onClick={() => inputRef.current?.focus()}
     >
-      <div className="terminal-output">
+      <div className="terminal output">
         {history.map((item, index) => {
           return (
             <div key={index}>
@@ -197,14 +197,14 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
           );
         })}
       </div>
-      <div className="terminal-input-line">
+      <div className="terminal input-line">
         <span className="prompt">&gt;&nbsp;</span>
         {/* When typing is blocked (Typewriter animation running) */}
         {isTyping && <span className="typing-cursor">█</span>}
         <input
           ref={inputRef}
           type="text"
-          className={`terminal-input ${isTyping ? "no-cursor" : ""}`}
+          className={`terminal input ${isTyping ? "no-cursor" : ""}`}
           value={inputValue}
           onChange={(e) => {
             if (!isTyping) setInputValue(e.target.value);

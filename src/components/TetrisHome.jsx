@@ -40,11 +40,11 @@ const TetrisHome = ({ onNavigate, isLowPerf }) => {
         <div>Welcome to Tetris. </div>
         <div>Would you like to start the game (Y/N)? </div>
       </div>
-      <div className="thome-input-line">
+      <div className="thome input-line">
         <input
           ref={inputRef}
           type="text"
-          className={`thome-input ${isBuffering ? "no-cursor" : ""}`}
+          className={`thome input ${isBuffering ? "no-cursor" : ""}`}
           value={inputValue}
           onChange={(e) => {
             if (!isBuffering) setInputValue(e.target.value);
