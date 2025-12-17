@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Typewriter = ({ text, speed = 30, showCursor = true, onComplete }) => {
+const Typewriter = ({ text, speed = 20, showCursor = true, onComplete }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const isTyping = currentIndex < text.length;

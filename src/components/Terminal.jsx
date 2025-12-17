@@ -60,13 +60,33 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
     }
   };
 
+  // Clear command animation
+  const clearHistorySequentially = () => {
+    if (isLowPerf) {
+      setHistory(initialHistory);
+      return;
+    }
+
+    setIsTyping(true);
+    const interval = setInterval(() => {
+      setHistory((prev) => {
+        if (prev.length <= 1) {
+          clearInterval(interval);
+          setIsTyping(false);
+          return prev;
+        }
+        return prev.slice(0, -1);
+      });
+    }, 50);
+  };
+
   // Handle all events that happen after clicking "Enter"
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !isTyping) {
       const command = inputValue.trim();
       if (command) {
         if (command.toLowerCase() === "clear") {
-          setHistory(initialHistory);
+          clearHistorySequentially();
         } else {
           const response = processCommand(command);
           if (response && !isLowPerf) {
@@ -142,7 +162,6 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
                   {item.animated ? (
                     <Typewriter
                       text={item.content}
-                      speed={30}
                       onComplete={() => markAnimatedComplete(index)}
                     />
                   ) : (
