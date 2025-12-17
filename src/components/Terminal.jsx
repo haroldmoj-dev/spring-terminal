@@ -94,6 +94,8 @@ const Terminal = ({ onNavigate, isLowPerf }) => {
       if (command) {
         if (command.toLowerCase() === "clear") {
           processClear();
+        } else if (command.toLowerCase() === "tetris" && isLowPerf) {
+          onNavigate("tetris");
         } else {
           const response = processCommand(command);
           if (response && !isLowPerf) {
