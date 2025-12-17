@@ -20,7 +20,30 @@
     -0.08rem 0 0 rgba(0, 255, 255, 0.3);
 }
 
+/* Highlighting text */
+.tetris.content *::selection {
+  background: rgba(0, 255, 0, 0.3);
+}
+
 .title,
 .menu {
   text-align: center;
+}
+
+.tetris-input-line {
+  display: flex;
+  align-items: baseline;
+}
+
+.tetris-input {
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  caret-color: #00ff00;
+  text-align: center;
+}
+
+.tetris-input.no-cursor {
+  caret-color: transparent;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Terminal from "./components/Terminal";
-import Tetris from "./components/Tetris";
+import TetrisHome from "./components/TetrisHome";
 
 function App() {
   const [isLowPerf, setIsLowPerf] = useState(false);
@@ -81,7 +81,7 @@ function App() {
                 <Terminal onNavigate={setCurrentView} isLowPerf={isLowPerf} />
               )}
               {displayedView === "tetris" && (
-                <Tetris onNavigate={setCurrentView} isLowPerf={isLowPerf} />
+                <TetrisHome onNavigate={setCurrentView} isLowPerf={isLowPerf} />
               )}
             </div>
           </div>
