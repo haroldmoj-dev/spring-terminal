@@ -7,6 +7,8 @@ function App() {
   const [currentView, setCurrentView] = useState("terminal");
   const [displayedView, setDisplayedView] = useState("terminal");
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isTransitioningOut, setIsTransitioningOut] = useState(false);
+  const [isTransitioningIn, setIsTransitioningIn] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
   const togglePerformance = () => {
@@ -29,10 +31,18 @@ function App() {
       setDisplayedView(currentView);
     } else {
       setIsTransitioning(true);
+      setIsTransitioningOut(true);
+      // Transition out
       setTimeout(() => {
+        setIsTransitioningOut(false);
+        setIsTransitioningIn(true);
         setDisplayedView(currentView);
-        setIsTransitioning(false);
       }, 1000);
+      // Transition in
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setIsTransitioningIn(false);
+      }, 2000);
     }
   }, [currentView]);
 
@@ -60,11 +70,11 @@ function App() {
               className={`content ${
                 isLowPerf
                   ? ""
-                  : !hasMounted
+                  : !hasMounted || isTransitioningIn
                   ? "fade-in"
-                  : isTransitioning
+                  : isTransitioningOut
                   ? "fade-out"
-                  : "fade-in"
+                  : ""
               }`}
             >
               {displayedView === "terminal" && (
