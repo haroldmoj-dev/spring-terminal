@@ -100,7 +100,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     const { board: clearedBoard, linesCleared } = clearLines(newBoard);
     if (linesCleared) setScore((s) => s + linesCleared);
 
-    // Update state and ref
+    // Update board
     setBoard(clearedBoard);
     boardRef.current = clearedBoard;
   };

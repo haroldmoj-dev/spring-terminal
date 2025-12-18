@@ -22,6 +22,10 @@ function App() {
     setCurrentView((prev) => (prev === "terminal" ? "thome" : "terminal"));
   };
 
+  const simulateKey = (key) => {
+    window.dispatchEvent(new KeyboardEvent("keydown", { key }));
+  };
+
   // Apply transition effect when switching tabs
   useEffect(() => {
     if (!hasMounted) {
@@ -89,6 +93,31 @@ function App() {
               )}
             </div>
           </div>
+        </div>
+        <div className="controls">
+          <button className="control" onClick={() => simulateKey("ArrowLeft")}>
+            Left
+          </button>
+
+          <button className="control" onClick={() => simulateKey("ArrowRight")}>
+            Right
+          </button>
+
+          <button className="control" onClick={() => simulateKey("ArrowUp")}>
+            Up
+          </button>
+
+          <button
+            className="control"
+            onPointerDown={() => simulateKey("ArrowDown")}
+            onPointerUp={() =>
+              window.dispatchEvent(
+                new KeyboardEvent("keyup", { key: "ArrowDown" })
+              )
+            }
+          >
+            Down
+          </button>
         </div>
       </div>
     </div>
