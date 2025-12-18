@@ -18,6 +18,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
       .map(() => Array(COLS).fill(0));
   };
 
+  const [score, setScore] = useState(0);
   const [isFastDrop, setIsFastDrop] = useState(false);
   const [board, setBoard] = useState(createEmptyBoard());
   const [currentPiece, setCurrentPiece] = useState(() => {
@@ -32,9 +33,11 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
 
     return { x: 6, y: 0, shape: initialShape };
   });
+  const boardRef = useRef(board);
 
   // Check if piece can move to a position
   const canMove = (piece, newX, newY) => {
+    const b = boardRef.current;
     for (let rowIndex = 0; rowIndex < piece.shape.length; rowIndex++) {
       for (
         let colIndex = 0;
@@ -51,7 +54,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
           }
 
           // Check collision
-          if (boardRow >= 0 && board[boardRow][boardCol]) {
+          if (boardRow >= 0 && b[boardRow][boardCol]) {
             return false;
           }
         }
@@ -60,9 +63,21 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     return true;
   };
 
-  // Lock piece
+  // Clear lines
+  const clearLines = (board) => {
+    const newBoard = board.filter((row) => row.some((cell) => cell === 0)); // keep incomplete rows
+    const linesCleared = board.length - newBoard.length; // number of full lines removed
+
+    // Add empty rows at the top
+    const emptyRows = Array.from({ length: linesCleared }, () =>
+      Array(COLS).fill(0)
+    );
+    return { board: [...emptyRows, ...newBoard], linesCleared };
+  };
+
+  // Lock piece and clean lines
   const lockPiece = (piece) => {
-    const newBoard = board.map((row) => [...row]);
+    const newBoard = boardRef.current.map((row) => [...row]);
 
     piece.shape.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
@@ -81,8 +96,19 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
       });
     });
 
-    setBoard(newBoard);
+    // Clear lines
+    const { board: clearedBoard, linesCleared } = clearLines(newBoard);
+    if (linesCleared) setScore((s) => s + linesCleared);
+
+    // Update state and ref
+    setBoard(clearedBoard);
+    boardRef.current = clearedBoard;
   };
+
+  // Update ref whenever board changes
+  useEffect(() => {
+    boardRef.current = board;
+  }, [board]);
 
   // Gravity
   useEffect(() => {
@@ -94,7 +120,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
           // Move piece down
           return { ...prev, y: prev.y + 1 };
         } else {
-          // Lock piece
+          // Lock piece and clear lines
           lockPiece(prev);
 
           // Generate new piece
@@ -116,7 +142,31 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     }, intervalTime);
 
     return () => clearInterval(dropInterval);
-  }, [board, isFastDrop]);
+  }, [isFastDrop]);
+
+  // Rotate piece using UP key
+  const rotatePiece = (piece) => {
+    const shape = piece.shape;
+    const rows = shape.length;
+    const cols = shape[0].length;
+
+    const rotated = Array.from({ length: cols }, (_, i) =>
+      Array.from({ length: rows }, (_, j) => shape[rows - 1 - j][i])
+    );
+
+    // L-piece (crosswise)
+    if (shape.length === 1) {
+      return { x: piece.x + 1, y: piece.y - 1, shape: rotated };
+    }
+    // L-piece (lengthwise)
+    else if (shape.length === 3) {
+      return { x: piece.x - 1, y: piece.y + 1, shape: rotated };
+    }
+    // Other pieces
+    else {
+      return { ...piece, shape: rotated };
+    }
+  };
 
   // Keyboard controls for moving the piece
   useEffect(() => {
@@ -131,6 +181,12 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
         );
       } else if (e.key === "ArrowDown") {
         setIsFastDrop(true);
+      } else if (e.key === "ArrowUp") {
+        setCurrentPiece((prev) => {
+          const rotated = rotatePiece(prev);
+
+          return canMove(rotated, rotated.x, rotated.y) ? rotated : prev;
+        });
       }
     };
 
@@ -177,6 +233,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
   return (
     <div className="tplay content">
       <div className="tetris-game">
+        <div className="score">{score}</div>
         <div className="game-board">
           {displayBoard.map((row, rowIndex) => (
             <div key={rowIndex} className="board-row">
