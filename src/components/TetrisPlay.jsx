@@ -13,6 +13,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
       .map(() => Array(COLS).fill(0));
   };
 
+  const [isFastDrop, setIsFastDrop] = useState(false);
   const [board, setBoard] = useState(createEmptyBoard());
   const [currentPiece, setCurrentPiece] = useState({
     x: 6,
@@ -63,7 +64,6 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
             boardCol < COLS
           ) {
             newBoard[boardRow][boardCol] = 1;
-            console.log(`lock piece at [${boardRow}] [${boardCol}]`);
           }
         }
       });
@@ -74,6 +74,8 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
 
   // Gravity
   useEffect(() => {
+    const intervalTime = isFastDrop ? 50 : 500;
+
     const dropInterval = setInterval(() => {
       setCurrentPiece((prev) => {
         // A) Move piece down
@@ -85,9 +87,39 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
           return { x: 6, y: 0, shape: [[1, 1, 1]] };
         }
       });
-    }, 500);
+    }, intervalTime);
 
     return () => clearInterval(dropInterval);
+  }, [board, isFastDrop]);
+
+  // Keyboard controls for moving the piece
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        setCurrentPiece((prev) =>
+          canMove(prev, prev.x - 1, prev.y) ? { ...prev, x: prev.x - 1 } : prev
+        );
+      } else if (e.key === "ArrowRight") {
+        setCurrentPiece((prev) =>
+          canMove(prev, prev.x + 1, prev.y) ? { ...prev, x: prev.x + 1 } : prev
+        );
+      } else if (e.key === "ArrowDown") {
+        setIsFastDrop(true);
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      if (e.key === "ArrowDown") {
+        setIsFastDrop(false); // stop fast drop
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
   }, [board]);
 
   // Display piece on board
