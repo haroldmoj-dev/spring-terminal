@@ -18,6 +18,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
       .map(() => Array(COLS).fill(0));
   };
 
+  const [isPaused, setIsPaused] = useState(false);
   const [score, setScore] = useState(0);
   const [isFastDrop, setIsFastDrop] = useState(false);
   const [board, setBoard] = useState(createEmptyBoard());
@@ -106,10 +107,20 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     boardRef.current = board;
   }, [board]);
 
+  // Reset fast drop when pausing
+  useEffect(() => {
+    if (isPaused) {
+      setIsFastDrop(false);
+    }
+  }, [isPaused]);
+
   // Gravity
   useEffect(() => {
-    const intervalTime = isFastDrop ? 50 : 500;
+    if (isPaused) {
+      return;
+    }
 
+    const intervalTime = isFastDrop ? 50 : 500;
     const dropInterval = setInterval(() => {
       setCurrentPiece((prev) => {
         if (canMove(prev.shape, prev.x, prev.y + 1)) {
@@ -143,7 +154,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     }, intervalTime);
 
     return () => clearInterval(dropInterval);
-  }, [isFastDrop]);
+  }, [isFastDrop, isPaused]);
 
   // Rotate piece using UP key
   const rotatePiece = (piece) => {
@@ -180,6 +191,13 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
   // Keyboard controls for moving the piece
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsPaused((prev) => !prev);
+        return;
+      }
+
+      if (isPaused) return;
+
       if (e.key === "ArrowLeft") {
         setCurrentPiece((prev) =>
           canMove(prev.shape, prev.x - 1, prev.y)
@@ -204,6 +222,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     };
 
     const handleKeyUp = (e) => {
+      if (isPaused) return;
       if (e.key === "ArrowDown") {
         setIsFastDrop(false); // stop fast drop
       }
@@ -215,7 +234,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [board]);
+  }, [board, isPaused]);
 
   // Display piece on board
   const getBoardWithPiece = () => {
@@ -260,6 +279,16 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
           ))}
         </div>
       </div>
+      {isPaused && (
+        <div className="pause-menu">
+          <div className="pause-content">
+            <h2>PAUSED</h2>
+            <button onClick={() => setIsPaused(false)}>Resume</button>
+            <button>Restart</button>
+            <button onClick={() => onNavigate("thome")}>Quit</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
