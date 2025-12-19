@@ -5,6 +5,7 @@ import TetrisPlay from "./components/TetrisPlay";
 
 function App() {
   const [isLowPerf, setIsLowPerf] = useState(false);
+  const [hasControls, setHasControls] = useState(false);
   const [currentView, setCurrentView] = useState("terminal");
   const [displayedView, setDisplayedView] = useState("terminal");
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -15,6 +16,10 @@ function App() {
   const togglePerformance = () => {
     setIsLowPerf(!isLowPerf);
     document.body.classList.toggle("low-perf", !isLowPerf);
+  };
+
+  const toggleControls = () => {
+    setHasControls(!hasControls);
   };
 
   const toggleTab = () => {
@@ -54,10 +59,13 @@ function App() {
   return (
     <div className="outer-container">
       <div className="top-container">
-        <button className="perf-toggle" onClick={togglePerformance}>
-          Performance Mode: {isLowPerf ? "Low" : "High"}
+        <button className="toggle perf" onClick={togglePerformance}>
+          Effects: {isLowPerf ? "Disabled" : "Enabled"}
         </button>
-        <button className="active-tab" onClick={toggleTab}>
+        <button className="controls toggle" onClick={toggleControls}>
+          Controls: {hasControls ? "Enabled" : "Disabled"}
+        </button>
+        <button className="toggle tab" onClick={toggleTab}>
           Active Tab:
           {currentView === "terminal"
             ? " Terminal"
@@ -94,31 +102,54 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="controls">
-          <button className="control" onClick={() => simulateKey("ArrowLeft")}>
-            Left
-          </button>
+        {hasControls ? (
+          <div className="controls-container">
+            <div className="top-controls">
+              <button
+                className="control"
+                onClick={() => simulateKey("ArrowUp")}
+              >
+                ▲
+              </button>
+            </div>
 
-          <button className="control" onClick={() => simulateKey("ArrowRight")}>
-            Right
-          </button>
-
-          <button className="control" onClick={() => simulateKey("ArrowUp")}>
-            Up
-          </button>
-
-          <button
-            className="control"
-            onPointerDown={() => simulateKey("ArrowDown")}
-            onPointerUp={() =>
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { key: "ArrowDown" })
-              )
-            }
-          >
-            Down
-          </button>
-        </div>
+            <div className="bottom-controls">
+              <button
+                className="control"
+                onClick={() => simulateKey("ArrowLeft")}
+              >
+                ◀
+              </button>
+              <button
+                className="control"
+                onPointerDown={() => simulateKey("ArrowDown")}
+                onPointerUp={() =>
+                  window.dispatchEvent(
+                    new KeyboardEvent("keyup", { key: "ArrowDown" })
+                  )
+                }
+                onPointerLeave={() =>
+                  window.dispatchEvent(
+                    new KeyboardEvent("keyup", { key: "ArrowDown" })
+                  )
+                }
+                onPointerCancel={() =>
+                  window.dispatchEvent(
+                    new KeyboardEvent("keyup", { key: "ArrowDown" })
+                  )
+                }
+              >
+                ▼
+              </button>
+              <button
+                className="control"
+                onClick={() => simulateKey("ArrowRight")}
+              >
+                ▶
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );

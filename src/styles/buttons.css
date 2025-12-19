@@ -1,6 +1,5 @@
 /* Performance toggle button */
-.perf-toggle,
-.active-tab {
+.toggle {
   padding: 0.625rem 0.9375rem;
   background: rgba(0, 255, 0, 0.1);
   border: 1px solid #00ff00;
@@ -12,8 +11,7 @@
   z-index: 1000;
 }
 
-.perf-toggle:hover,
-.active-tab:hover {
+.toggle:hover {
   background: rgba(0, 255, 0, 0.2);
 }
 

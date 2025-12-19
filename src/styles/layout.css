@@ -1,6 +1,7 @@
 /* Containers */
 .outer-container {
   height: 100vh;
+  padding: 20px;
   height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -21,34 +22,8 @@
 .middle-container {
   display: flex;
   flex-direction: column;
+  margin: auto 0px;
   justify-content: center;
   align-items: center;
-  margin: auto 0;
-  flex-wrap: wrap;
-}
-
-.middle-container .container {
-  width: 100%;
-  height: 100%;
-}
-
-.controls {
-  display: flex;
   gap: 1rem;
-}
-
-.control {
-  padding: 0.625rem 0.9375rem;
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid #00ff00;
-  color: #00ff00;
-  font-family: "Courier New", monospace;
-  cursor: pointer;
-  border-radius: 0.3125rem;
-  font-size: 0.75rem;
-  z-index: 1000;
-}
-
-.control:hover {
-  background: rgba(0, 255, 0, 0.2);
 }
