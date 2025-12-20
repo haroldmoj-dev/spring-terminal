@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Courier New";
+  src: url("../../public/fonts/CourierNewPSMT.woff2") format("woff2"),
+    url("CourierNewPSMT.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -76,15 +85,6 @@ html {
 body {
   background: #0a0a0a;
   font-family: "Courier New", monospace;
-}
-
-@font-face {
-  font-family: "Courier New";
-  src: url("../../public/fonts/CourierNewPSMT.woff2") format("woff2"),
-    url("CourierNewPSMT.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
 
 /* * {
