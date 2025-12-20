@@ -224,7 +224,7 @@ const TetrisPlay = ({ onNavigate, isLowPerf, hasI = true, hasL = true }) => {
     const handleKeyUp = (e) => {
       if (isPaused) return;
       if (e.key === "ArrowDown") {
-        setIsFastDrop(false); // stop fast drop
+        setIsFastDrop(false);
       }
     };
 
